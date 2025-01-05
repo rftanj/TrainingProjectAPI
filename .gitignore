@@ -4,3 +4,10 @@
 
 /.vs/TrainingProjectAPI
 /.vs/ProjectEvaluation
+/bin/Debug/net8.0/TrainingProjectAPI.dll
+/bin/Debug/net8.0/TrainingProjectAPI.exe
+/bin/Debug/net8.0/TrainingProjectAPI.pdb
+/obj/Debug/net8.0/EndpointInfo/TrainingProjectAPI.json
+/obj/Debug/net8.0/ref/TrainingProjectAPI.dll
+/obj/Debug/net8.0/refint/TrainingProjectAPI.dll
+*.json
