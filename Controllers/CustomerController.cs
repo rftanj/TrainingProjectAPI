@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TrainingProjectAPI.Models;
 using TrainingProjectAPI.Models.DB;
 using TrainingProjectAPI.Services;
 
@@ -20,8 +21,28 @@ namespace TrainingProjectAPI.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var customerList = _customerService.GetListCustomer();
-            return Ok(customerList);
+            try
+            {
+                var customerList = _customerService.GetListCustomer();
+                var response = new GeneralResponse
+                {
+                    StatusCode = "01",
+                    StatusDesc = "Success",
+                    Data = customerList
+                };
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                var response = new GeneralResponse
+                {
+                    StatusCode = "99",
+                    StatusDesc = "Failed | " + ex.Message.ToString(),
+                    Data = null
+                };
+                return BadRequest(response);
+            }
+            
         }
 
         // GET api/<CustomerController>/5
@@ -41,13 +62,41 @@ namespace TrainingProjectAPI.Controllers
         [HttpPost]
         public IActionResult Post(Customer customer)
         {
-            var insertCustomer = _customerService.CreateCustomer(customer);
-            if (insertCustomer)
+            try
             {
-                return Ok("Insert Customer Success");
-            }
+                var insertCustomer = _customerService.CreateCustomer(customer);
+                if (insertCustomer)
+                {
+                    var responseSuccess = new GeneralResponse
+                    {
+                        StatusCode = "01",
+                        StatusDesc = "Insert Customer Success",
+                        Data = null
+                    };
+                    return Ok(responseSuccess);
+                }
 
-            return BadRequest("Insert Customer Failed");
+                var responseFailed = new GeneralResponse
+                {
+                    StatusCode = "02",
+                    StatusDesc = "Insert Customer Failed",
+                    Data = null
+                };
+
+                return BadRequest(responseFailed);
+            }
+            catch (Exception ex)
+            {
+                var responseFailed = new GeneralResponse
+                {
+                    StatusCode = "99",
+                    StatusDesc = "Failed | " + ex.Message.ToString(),
+                    Data = null
+                };
+
+                return BadRequest(responseFailed);
+            }
+            
         }
 
         // PUT api/<CustomerController>/5
